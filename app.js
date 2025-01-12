@@ -1,7 +1,7 @@
 var http = require("http");
 var express = require("express");
 var cookieParser = require("cookie-parser");
-var authorize =  require("./authorize")
+var authorize =  require("./routes/authorize")
 
 var app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -24,6 +24,7 @@ app.get("/login", (req, res) => {
   res.render("login");
 });
 
+
 app.post("/login", (req, res) => {
   var username = req.body.txtUser;
   var pwd = req.body.txtPwd;
@@ -37,6 +38,12 @@ app.post("/login", (req, res) => {
     res.render("login", { message: "Zła nazwa logowania lub hasło" });
   }
   
+});
+
+app.use((req, res, next) => {
+    res.render('404.ejs', {
+        url: req.url
+    });
 });
 http.createServer(app).listen(3000);
 console.log("serwer działa, nawiguj do http://localhost:3000");
