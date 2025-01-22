@@ -44,13 +44,13 @@ const products = [
 ];
 
 app.get("/product/:id",(req,res) => {
-  const productId = parseInt(req.params.id, 10); // Pobierz ID z parametru ścieżki
-  const product = products.find(p => p.id === productId); // Wyszukaj produkt
+  const productId = parseInt(req.params.id, 10);
+  const product = products.find(p => p.id === productId);
   
   if (product) {
-    res.render("product", { product }); // Jeśli znaleziono, renderuj widok
+    res.render("product", { product }); 
   } else {
-    res.status(404).render("404", { url: req.url }); // Jeśli nie znaleziono, wyświetl 404
+    res.status(404).render("404", { url: req.url }); 
   }
 }
 )
