@@ -19,16 +19,39 @@ app.get("/", authorize, (req, res) => {
   res.render("app", { user: req.user });
 });
 
-const product = {
-  id: 1,
-  name: "Gaming Laptop",
-  description: "High-performance laptop with NVIDIA GeForce RTX, Intel i9, and 16GB RAM.",
-  price: 1999.99,
-  image: "images/potatoes-scaled.jpg" // ścieżka do obrazu w folderze public
-};
+const products = [
+  {
+    id: 1,
+    name: "Gaming Laptop",
+    description: "High-performance laptop with NVIDIA GeForce RTX, Intel i9, and 16GB RAM.",
+    price: 1999.99,
+    image: "/images/potatoes-scaled.jpg"
+  },
+  {
+    id: 2,
+    name: "Wireless Headphones",
+    description: "Noise-cancelling over-ear headphones with long battery life.",
+    price: 299.99,
+    image: "/images/potatoes-scaled.jpg"
+  },
+  {
+    id: 3,
+    name: "Smartphone",
+    description: "Latest model smartphone with stunning OLED display and 5G support.",
+    price: 999.99,
+    image: "/images/potatoes-scaled.jpg"
+  }
+];
 
-app.get("/product",(reg,res) => {
-  res.render("product", {product});
+app.get("/product/:id",(req,res) => {
+  const productId = parseInt(req.params.id, 10); // Pobierz ID z parametru ścieżki
+  const product = products.find(p => p.id === productId); // Wyszukaj produkt
+  
+  if (product) {
+    res.render("product", { product }); // Jeśli znaleziono, renderuj widok
+  } else {
+    res.status(404).render("404", { url: req.url }); // Jeśli nie znaleziono, wyświetl 404
+  }
 }
 )
 app.get("/logout", authorize, (req, res) => {
