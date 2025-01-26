@@ -1,7 +1,7 @@
 const { Op } = require('sequelize');
 const bcrypt = require('bcrypt');
 
-const User = require('../models/user');
+const User = require('../models/User');
 
 exports.registerUser = async (req, res) => {
 	const { username, email, password } = req.body;
@@ -26,7 +26,7 @@ exports.registerUser = async (req, res) => {
 			passwordHash: await bcrypt.hash(password, 10)
 		});
 
-		res.cookie('user', user.username, { signed: true, isAdmin: user.isAdmin });
+		res.cookie('userId', user.id, { signed: true });
 		res.redirect('/');
 	} catch (err) {
 		console.error(err);
@@ -41,19 +41,11 @@ exports.loginUser = async (req, res) => {
 	try {
 		const user = await User.findOne({ where: { username: username } });
 
-		if (!user) {
+		if (!user || !await user.comparePassword(password)) {
 			return res.render('login', { message: 'Invalid username or password.' });
 		}
 
-		if (!await user.comparePassword(password)) {
-			return res.render('login', { message: 'Invalid username or password.' });	
-		}
-
-		res.cookie('user', user.username, { signed: true, isAdmin: user.isAdmin });
-
-		// console.log("req: ", req);
-		console.log("return url: ", req.query.returnUrl, returnUrl);
-
+		res.cookie('userId', user.id, { signed: true });
 		res.redirect(returnUrl);
 	} catch (err) {
 		console.error(err);
@@ -62,7 +54,6 @@ exports.loginUser = async (req, res) => {
 };
 
 exports.logoutUser = async (req, res) => {
-	console.log("Logging out");
-	res.cookie('user', '', { maxAge: -1 });
+	res.clearCookie('userId');
 	res.redirect('/');
 };

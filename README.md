@@ -51,6 +51,7 @@ npm install
 sudo -i -u postgres
 psql
 CREATE DATABASE weppo_db;
+ALTER USER postgres PASSWORD 'postgres';
 \q
 exit
 ```
