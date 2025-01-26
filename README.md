@@ -16,8 +16,11 @@
 Make sure you have the following installed on your system:
 
 - [Node.js](https://nodejs.org/)
+  ``` sudo apt install nodejs ```
 - [PostgreSQL](https://www.postgresql.org/)
+  ``` sudo apt install postgresql ```
 - [Git](https://git-scm.com/)
+  ``` sudo apt install git ```
 
 ---
 
@@ -72,23 +75,17 @@ http://localhost:3000
 ## **Folder Structure**
 
 ```
-your-repo/
+weppo-sklep/
 │
-├── models/         # Database models (e.g., User, Product, Order)
-├── routes/         # Route handlers (e.g., auth.js, admin.js, products.js)
-├── views/          # EJS templates for rendering
-├── public/         # Static files (CSS, images, JS)
-├── init.sql        # SQL script to initialize the database
-├── .env.example    # Example environment variables
+├── config/         # Config files
+├── controllers/    # Server logic
+├── middlewares/    # Middlewares
+├── models/         # Database models
+├── public/         # Static files
+├── routes/         # Route handlers
+├── views/          # EJS templates
 ├── app.js          # Main application file
-├── config.js       # Centralized configuration
-└── README.md       # This file
+├── README.md       # This file
 ```
-
----
-
-### **License**
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
 
 ---
