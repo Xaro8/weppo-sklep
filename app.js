@@ -67,8 +67,28 @@ async function addAdmin() {
 
 };
 
+async function removeUser(username) {
+
+	try {
+		if (await User.findOne({ where: { username: username }})) {
+			console.log('User found');
+			await User.destroy({where: {username: username}})
+			return;
+		}
+		else {
+
+			console.log("User not found")
+		}
+
+	} catch (err) {
+		console.log('Unable to delete user: ', err);
+	}
+
+};
+
 setupDB();
 addAdmin();
+// removeUser("admin");
 app.listen(
 	config.PORT,
 	() => console.log(`Server is running, go to http://localhost:${ config.PORT }`)

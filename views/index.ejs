@@ -4,7 +4,7 @@
 <%- include('partials/nav'); %>
 
 <% if (locals.userId) { %>
-Hi, you are logged in as <%= locals.userId %>
+Hi, you are logged in as <%= locals.userName %>
 <form action="/logout" method="POST" style="display: inline;">
 	<button type="submit">Log out</button>
 </form>
