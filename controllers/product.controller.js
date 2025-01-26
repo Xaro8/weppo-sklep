@@ -9,7 +9,7 @@ exports.getProducts = async (req, res) => {
     console.log(err);
     res.status(500).send('Server error');
   }
-}
+};
 
 exports.getProduct = async (req, res) => {
   const productId = req.params.id;

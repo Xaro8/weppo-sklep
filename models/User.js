@@ -36,7 +36,7 @@ User.prototype.comparePassword = async function (password) {
 	return bcrypt.compare(password, this.passwordHash);
 };
 
-User.hasOne(Cart);
-Cart.belongsTo(User);
+User.hasOne(Cart, { foreignKey: 'userId' });
+Cart.belongsTo(User, { foreignKey: 'userId' });
 
 module.exports = User;

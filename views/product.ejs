@@ -13,7 +13,7 @@
 			<p class="card-text">
 				<%= product.description %>
 			</p>
-			<p class="text-primary fw-bold">$<%= product.price.toFixed(2) %>
+			<p class="text-primary fw-bold">$<%= product.price %>
 			</p>
 			<form action="/addToCart/<%= product.id %>" method="POST">
 				<div class="d-grid">
