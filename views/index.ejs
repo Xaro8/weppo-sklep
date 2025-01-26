@@ -1,0 +1,15 @@
+<% title = 'WEPPO Shop' %>
+
+<%- include('partials/head'); %>
+<%- include('partials/nav'); %>
+
+<% if (locals.userId) { %>
+Hi, you are logged in as <%= locals.userId %>
+<form action="/logout" method="POST" style="display: inline;">
+	<button type="submit">Log out</button>
+</form>
+<% } else { %>
+You are not logged in.
+<% } %>
+
+<%- include('partials/end'); %>

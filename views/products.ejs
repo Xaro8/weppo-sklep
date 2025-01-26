@@ -1,0 +1,25 @@
+<% title = 'WEPPO Shop' %>
+
+<%- include('partials/head'); %>
+<%- include('partials/nav'); %>
+
+<div class="container mt-5">
+  <h2>Our Products</h2>
+  <div class="row">
+    <% products.forEach(function(product) { %>
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <img src="<%= product.imagePath %>" class="card-img-top" alt="<%= product.name %>">
+          <div class="card-body">
+            <h5 class="card-title"><%= product.name %></h5>
+            <p class="card-text">$<%= product.price %></p>
+            <a href="/product/<%= product.id %>" class="btn btn-primary">View Details</a>
+            <a href="/cart/add/<%= product.id %>" class="btn btn-success">Add to Cart</a>
+          </div>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+</div>
+
+<%- include('partials/end'); %>

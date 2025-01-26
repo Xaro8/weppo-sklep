@@ -1,8 +1,6 @@
-const config = require('./config');
-
 const { Sequelize } = require('sequelize');
 
-console.log(config.DB_HOST, config.DB_USERNAME, config.DB_PASSWORD);
+const config = require('./config');
 
 const sequelize = new Sequelize({
 	dialect: 'postgres',
