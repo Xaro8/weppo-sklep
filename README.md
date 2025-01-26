@@ -1,12 +1,4 @@
-Here's a more polished and clear version of your README setup instructions:
-
----
-
-# **Your Project Name**
-
-A simple Node.js + Express application with EJS templating and PostgreSQL/MongoDB integration.
-
----
+# **Shop Prototype for WEPPO**
 
 ## **Features**
 
@@ -19,14 +11,12 @@ A simple Node.js + Express application with EJS templating and PostgreSQL/MongoD
 
 ## **Getting Started**
 
-Follow these instructions to set up and run the application on your local machine.
-
 ### **Prerequisites**
 
 Make sure you have the following installed on your system:
 
-- [Node.js](https://nodejs.org/) (v14 or later)
-- [PostgreSQL](https://www.postgresql.org/) or [MongoDB](https://www.mongodb.com/)
+- [Node.js](https://nodejs.org/)
+- [PostgreSQL](https://www.postgresql.org/)
 - [Git](https://git-scm.com/)
 
 ---
@@ -36,8 +26,8 @@ Make sure you have the following installed on your system:
 First, clone the repository to your local machine:
 
 ```bash
-git clone https://github.com/yourusername/your-repo.git
-cd your-repo
+git clone https://github.com/Xaro8/weppo-sklep
+cd weppo-sklep
 ```
 
 ---
@@ -52,33 +42,15 @@ npm install
 
 ---
 
-### **3. Set Up Environment Variables**
-
-1. Create a `.env` file in the project root directory.
-2. Use the provided `.env.example` file as a reference:
-   ```bash
-   cp .env.example .env
-   ```
-3. Open the `.env` file and fill in the required environment variables:
-   ```dotenv
-   PORT=3000
-   COOKIE_SECRET=your_cookie_secret
-   DATABASE_URL=postgres://username:password@localhost:5432/yourdatabase
-   ```
-   - Replace `your_cookie_secret` with a random secure string (e.g., from [randomkeygen.com](https://randomkeygen.com/)).
-   - Replace `DATABASE_URL` with your PostgreSQL connection string.
-
----
-
 ### **4. Set Up the Database**
 
-If you're using PostgreSQL, run the provided SQL script to create the required tables:
-
-```bash
-node setup.js
 ```
-
-Alternatively, you can manually execute the `init.sql` file in your database tool of choice.
+sudo -i -u postgres
+psql
+CREATE DATABASE weppo_db;
+\q
+exit
+```
 
 ---
 
@@ -115,29 +87,8 @@ your-repo/
 
 ---
 
-### **Contributing**
-
-1. Fork the repository
-2. Create a new feature branch:
-   ```bash
-   git checkout -b feature/your-feature
-   ```
-3. Commit your changes:
-   ```bash
-   git commit -m "Add your feature"
-   ```
-4. Push to the branch:
-   ```bash
-   git push origin feature/your-feature
-   ```
-5. Open a pull request on GitHub.
-
----
-
 ### **License**
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
 
 ---
-
-This format ensures clarity and provides enough context for contributors to set up and run your project. Let me know if you'd like any changes!

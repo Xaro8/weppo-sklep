@@ -1,10 +1,12 @@
-const http = require("http");
 const path = require('path');
 const express = require("express");
-const cookieParser = require("cookie-parser");
-const config = require('./config/config');
+const cookieParser = require('cookie-parser');
 
-const auth = require("./routes/auth");
+const config = require('./config/config');
+const sequelize = require('./config/db');
+
+const auth = require('./routes/auth.routes');
+const isAuthenticated = require('./middlewares/auth.middleware');
 
 const app = express();
 
@@ -12,11 +14,23 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(config.COOKIE_SECRET));
 app.use(express.static(path.join(__dirname, './public')));
 
-app.set("view engine", "ejs");
-app.set("views", "./views");
+app.set('view engine', 'ejs');
+app.set('views', './views');
 
-app.use('/auth', auth);
+app.use('/', auth);
 
+app.get('/', isAuthenticated, (req, res) => {
+	console.log("Getting into index");
+	res.render('app', { user: req.signedCookies.user });
+});
+
+app.get('/login', (req, res) => {
+	res.render('login');
+});
+
+app.get('/register', (req, res) => {
+	res.render('register');
+});
 
 app.use((req, res, next) => {
 		res.render('404.ejs', {
@@ -24,11 +38,23 @@ app.use((req, res, next) => {
 		});
 });
 
+async function setupDB() {
+	try {
+		await sequelize.authenticate();
+		console.log('Connection to DB established succcessfully.');
 
+		await sequelize.sync({ force: false });
+		console.log('Database synced successfully.');
+	} catch (err) {
+		console.log('Unable to connect:', err);
+	}
+}
+
+setupDB();
 app.listen(
 	config.PORT,
 	() => console.log(`Server is running, go to http://localhost:${ config.PORT }`)
-)
+);
 
 /*
 	Anonymous user:
@@ -58,6 +84,4 @@ app.listen(
 		-> DELETE /users/:id (delete user)
 	
 		-> GET /orders (lists all orders)
-	
-	
 */

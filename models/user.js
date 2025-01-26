@@ -1,35 +1,38 @@
+const { DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
-const pool = require('../config/db');
 
-const User = {
-	async create(username, password) {
-			const passwordHash = await bcrypt.hash(password, 10);
-			const result = await pool.query(
-					'INSERT INTO users (username, password_hash, created_at) VALUES ($1, $2, NOW()) RETURNING id, username',
-					[username, passwordHash]
-			);
+const sequelize = require('../config/db');
 
-			return result.rows[0]
+const User = sequelize.define('User', {
+	id: {
+		type: DataTypes.INTEGER,
+		primaryKey: true,
+		autoIncrement: true,
 	},
-
-	async findByUsername(username) {
-		const result = await pool.query(
-			'SELECT * FROM users WHERE username = $1',
-			[username]
-		);
-
-		return result.rows[0];
+	username: {
+		type: DataTypes.STRING,
+		allowNull: false,
+		notEmpty: true
 	},
-
-	async verifyPassword(username, password) {
-		const user = await this.findByUsername(username);
-		if (!user) {
-				return false;
-		}
-
-		const isCorrect = await bcrypt.compare(password, user.password_hash);
-		return isCorrect ? user : false;
+	email: {
+		type: DataTypes.STRING,
+		unique: true,
+		allowNull: false,
+		isEmail: true,
+	},
+	passwordHash: {
+		type: DataTypes.STRING,
+		allowNull: false,
+	},
+	isAdmin: {
+		type: DataTypes.BOOLEAN,
+		defaultValue: false,
+		allowNull: false
 	}
+});
+
+User.prototype.comparePassword = async function (password) {
+	return bcrypt.compare(password, this.passwordHash);
 };
 
 module.exports = User;

@@ -6,6 +6,9 @@
 	</head>
 
 	<body>
-		Hi, you are logged in as <%= user %>. <a href="/logout">Log out</a>
+		Hi, you are logged in as <%= user %>.
+		<form action="/logout" method="POST" style="display: inline;">
+			<button type="submit">Log out</button>
+		</form>
 	</body>
 </html>
