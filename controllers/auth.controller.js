@@ -3,9 +3,26 @@ const bcrypt = require('bcrypt');
 
 const User = require('../models/User');
 
+const validateEmail = (email) => {
+	return String(email)
+	  .toLowerCase()
+	  .match(
+		/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+	  );
+  };
+
 exports.registerUser = async (req, res) => {
 	const { username, email, password } = req.body;
 
+	if (!username) {
+		return res.render('register', { message: "Please provide username." });
+	} 
+	if (!password) {
+		return res.render('register', { message: "Please provide password." });
+	} 
+	if (! validateEmail(email)) {
+		return res.render('register', { message: "That is not valid email." });
+	}	
 	try {
 		const existingUser = await User.findOne({ 
 			where: { 
