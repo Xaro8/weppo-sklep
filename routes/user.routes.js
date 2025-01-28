@@ -14,6 +14,15 @@ async function getUsername(id) {
     }
 }
 
+async function removeUser(id) {
+	try {
+        await User.destroy({where: {id}})
+	} catch (err) {
+		console.log('Unable to delete user: ', err);
+	}
+
+};
+
 router.get('/user', isAuthenticated, async (req, res) => {
     const id = req.signedCookies.userId;
 
@@ -32,6 +41,14 @@ router.get('/user', isAuthenticated, async (req, res) => {
     };
 
     res.render('user', { id, username, orders, cart });
+});
+
+
+router.get('/user/delete', isAuthenticated, async (req, res) => {
+    const id = req.signedCookies.userId;
+    removeUser(id);
+    res.clearCookie('userId');
+	res.redirect('/');
 });
 
 module.exports = router;
