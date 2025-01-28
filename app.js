@@ -16,6 +16,18 @@ app.use(fileUpload());
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
+app.use(async (req, res, next) => {
+	const userId  = req.signedCookies.userId;
+	const user = await User.findByPk(userId);
+
+	res.locals.logged =  user ? true : false;
+	if (user){
+		res.locals.isAdmin = user.isAdmin ? true : false;
+	}
+	next();
+
+  });
+
 app.use('/', require('./routes/index.routes'));
 app.use('/', require('./routes/admin.routes'));
 app.use('/', require('./routes/auth.routes'));
@@ -90,7 +102,7 @@ async function removeUser(username) {
 
 setupDB();
 addAdmin();
-// removeUser("admin");
+
 app.listen(
 	config.PORT,
 	() => console.log(`Server is running, go to http://localhost:${ config.PORT }`)

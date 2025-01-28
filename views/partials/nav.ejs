@@ -1,36 +1,52 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-	<div class="container-fluid">
-		<a class="navbar-brand" href="/">WEPPO Shop</a>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarNav">
-			<ul class="navbar-nav ms-auto">
-				<li class="nav-item">
-					<a class="nav-link" href="/products">Products</a>
-				</li>
-				<% if (locals.logged) { %>
-					<% if (locals.isAdmin) { %>
-						<li class="nav-item">
-							<a class="nav-link" href="/admin">Admin</a>
-						</li>
-					<% } %>
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            <i class="fas fa-store"></i> WEPPO Shop
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/products">
+                        <i class="fas fa-box-open"></i> Products
+                    </a>
+                </li>
+                <% if (locals.logged) { %>
+                    <% if (locals.isAdmin) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin">
+                                <i class="fas fa-cogs"></i> Admin
+                            </a>
+                        </li>
+                    <% } %>
 
-					<li class="nav-item">
-						<a class="nav-link" href="/cart">Cart</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/account">Account</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/logout">Logout</a>
-					</li>
-				<% } else { %>
-					<li class="nav-item">
-						<a class="nav-link" href="/login">Login/SignUp</a>
-					</li>
-				<% } %>
-			</ul>
-		</div>
-	</div>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cart">
+                            <i class="fas fa-shopping-cart"></i> Cart
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user">
+                            <i class="fas fa-user"></i> Account
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <form action="/logout" method="POST" class="d-inline">
+                            <button type="submit" class="nav-link">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                        </form>     
+                    </li>
+                <% } else { %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">
+                            <i class="fas fa-sign-in-alt"></i> Login/SignUp
+                        </a>
+                    </li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
 </nav>
