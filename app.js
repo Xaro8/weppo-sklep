@@ -21,6 +21,8 @@ app.use('/', require('./routes/admin.routes'));
 app.use('/', require('./routes/auth.routes'));
 app.use('/', require('./routes/cart.routes'));
 app.use('/', require('./routes/product.routes'));
+app.use('/', require('./routes/user.routes'));
+
 
 app.use((req, res, next) => {
 	res.render('404.ejs', {
