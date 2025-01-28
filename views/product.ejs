@@ -1,25 +1,32 @@
-<% title = 'Login' %>
+<% title = 'Product' %>
 
 <%- include('partials/head'); %>
 <%- include('partials/nav'); %>
 
 <div class="container mt-5">
-	<div class="card mx-auto" style="max-width: 540px;">
-		<img src="<%= product.imagePath %>" class="card-img-top" alt="<%= product.name %>">
-		<div class="card-body">
-			<h5 class="card-title">
-				<%= product.name %>
-			</h5>
-			<p class="card-text">
-				<%= product.description %>
-			</p>
-			<p class="text-primary fw-bold">$<%= product.price %>
-			</p>
-			<form action="/addToCart/<%= product.id %>" method="POST">
-				<div class="d-grid">
-					<button type="submit" clas="btn btn-primary">Add to cart</button>
+	<div class="card mx-auto" style="max-width: 1200px;"> 
+		<div class="row g-0 align-items-center">
+			<!-- Image Section -->
+			<div class="col-md-7"> 
+				<img src="<%= product.imagePath %>" class="img-fluid rounded-start" alt="<%= product.name %>">
+			</div>
+			<!-- Description Section -->
+			<div class="col-md-5"> 
+				<div class="card-body">
+					<h5 class="card-title display-5"> 
+						<%= product.name %>
+					</h5>
+					<p class="card-text fs-4"> 
+						<%= product.description %>
+					</p>
+					<p class="text-primary fw-bold fs-3">$<%= product.price %></p> 
+					<form action="/addToCart/<%= product.id %>" method="POST">
+						<div class="d-grid">
+							<button type="submit" class="btn btn-success btn-lg">Add to cart</button> 
+						</div>
+					</form>
 				</div>
-			</form>
+			</div>
 		</div>
 	</div>
 </div>
