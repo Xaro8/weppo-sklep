@@ -10,6 +10,10 @@ router.get('/admin', isAuthenticated, isAdmin, (req, res) => {
 
 router.post('/admin/addProduct', isAuthenticated, isAdmin, adminController.addProduct);
 
+router.post('/admin/editProduct/:id', isAuthenticated, isAdmin, adminController.editProduct);
+
 router.post('/admin/removeProduct/:id', isAuthenticated, isAdmin, adminController.removeProduct);
+
+router.post("/admin/updateProduct/:id", isAuthenticated, isAdmin ,adminController.updateProduct)
 
 module.exports = router;

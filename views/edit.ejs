@@ -1,0 +1,36 @@
+<% title = 'Edit Product' %>
+
+<%- include('partials/head'); %>
+<%- include('partials/nav'); %>
+
+<div class="container mt-5">
+	<div class="card mx-auto" style="max-width: 800px;"> 
+		<div class="card-body">
+			<h2 class="card-title text-center">Edit Product</h2>
+			<form action="/admin/updateProduct/<%= product.id %>" method="POST">
+				<div class="mb-3">
+					<label for="name" class="form-label">Product Name</label>
+					<input type="text" class="form-control" id="name" name="name" value="<%= product.name %>" required>
+				</div>
+				<div class="mb-3">
+					<label for="description" class="form-label">Description</label>
+					<textarea class="form-control" id="description" name="description" required><%= product.description %></textarea>
+				</div>
+				<div class="mb-3">
+					<label for="price" class="form-label">Price ($)</label>
+					<input type="number" step="0.01" class="form-control" id="price" name="price" value="<%= product.price %>" required>
+				</div>
+				<div class="mb-3">
+					<label for="imagePath" class="form-label">Image URL</label>
+					<input type="text" class="form-control" id="imagePath" name="imagePath" value="<%= product.imagePath %>" required>
+				</div>
+				<div class="d-grid">
+					<button type="submit" class="btn btn-primary">Update Product</button>
+				</div>
+			</form>
+			<a href="/product/<%= product.id %>" class="btn btn-secondary mt-3">Cancel</a>
+		</div>
+	</div>
+</div>
+
+<%- include('partials/end'); %>

@@ -68,3 +68,47 @@ exports.removeProduct = async (req, res) => {
     res.status(500).render('admin', { message : 'Error removing product' });
   }
 };
+
+exports.editProduct = async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).render('admin', { message : 'Product ID is required' });
+  }
+
+  try {
+    const product = await Product.findByPk(id);
+
+    if (!product) {
+      res.status(404).render('admin', { message : 'Product not found' });
+    }
+    
+    res.render('edit', {product})
+  } catch (err) {
+    console.log(err);
+    res.status(500).render('admin', { message : 'Error editing product' });
+  }
+};
+
+exports.updateProduct = async (req, res) => {
+  const { id } = req.params;
+  const { name, description, price, imagePath } = req.body;
+
+  if (!id) {
+    return res.status(400).render('admin', { message: 'Product ID is required' });
+  }
+
+  try {
+    const product = await Product.findByPk(id);
+    
+    if (!product) {
+      return res.status(404).render('admin', { message: 'Product not found' });
+    }
+    
+    await product.update({ name, description, price, imagePath });
+    res.redirect(`/product/${id}`);
+  } catch (err) {
+    console.error(err);
+    res.status(500).render('admin', { message: 'Error updating product' });
+  }
+};
