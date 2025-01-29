@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs/promises');
 
 const Product = require('../models/Product');
 
@@ -33,5 +34,37 @@ exports.addProduct = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.render('admin', { message: 'Error creating product' });
+  }
+};
+
+exports.removeProduct = async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).render('admin', { message : 'Product ID is required' });
+  }
+
+  try {
+    const product = await Product.findByPk(id);
+
+    if (!product) {
+      res.status(404).render('admin', { message : 'Product not found' });
+    }
+    
+    /* Uwaga, usunie zdjęcie z folderu
+    if (product.imagePath) {
+      const imagePath = path.join(__dirname, '..', 'public', product.imagePath);
+      try {
+        await fs.unlink(imagePath);
+      } catch (err) {
+        console.log('Error deleting image: ', err);
+      }
+    }
+    */
+    await Product.destroy({ where : { id }});
+    res.redirect('/products');
+  } catch (err) {
+    console.log(err);
+    res.status(500).render('admin', { message : 'Error removing product' });
   }
 };
