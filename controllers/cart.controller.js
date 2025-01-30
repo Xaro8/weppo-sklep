@@ -19,6 +19,7 @@ exports.getCart = async (req, res) => {
     }
 
     const cartItems = cart.Products.map(prod => ({
+      id: prod.id,
       name: prod.name,
       price: prod.price,
       quantity: prod.CartProduct.quantity,
@@ -100,7 +101,7 @@ exports.removeProductFromCart = async (req, res) => {
 
     if (cartProduct) {
       await cartProduct.destroy();
-      res.status(200).send('Product removed from cart');
+      res.redirect('/cart');
     }
     else {
       res.status(404).send('Product not in cart');
