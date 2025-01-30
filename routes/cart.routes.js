@@ -6,6 +6,7 @@ const cartController = require('../controllers/cart.controller');
 const { isAuthenticated } = require('../middlewares/auth.middleware');
 
 router.post('/addToCart/:id', isAuthenticated, cartController.addProductToCart);
+router.get('/addToCart/:id', isAuthenticated, cartController.addProductToCart);
 router.post('/removeFromCart/:id', isAuthenticated, cartController.removeProductFromCart);
 
 router.get('/cart', isAuthenticated, (req, res) => {
