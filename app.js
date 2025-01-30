@@ -48,14 +48,11 @@ async function setupDB() {
 	console.log('In setupDB\n');
 	try {
 		await sequelize.authenticate();
-		await sequelize.sync({ alter: true });
+		await sequelize.sync({ force: false });
 	} catch (err) {
 		console.log('Unable to connect:', err);
 	}
 }
-console.log(require('./models/Product').associations);
-console.log(require('./models/Cart').associations)
-console.log(require('./models/CartProduct').associations)
 
 const bcrypt = require('bcrypt');
 const User = require('./models/User');

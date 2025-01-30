@@ -6,24 +6,26 @@ exports.getCart = async (req, res) => {
   const userId = req.signedCookies.userId;
   
   try {
-    const cart = await Cart.findOne({ where: { userId }});
+    const cart = await Cart.findOne({ 
+      where: { userId },
+      include: {
+        model: Product,
+        through: { attributes: ['quantity'] }
+      }
+    });
 
     if (!cart) {
       return res.render('cart', { cart: { items: [], total: 0 }});
     }
 
-    const cartProducts = await CartProduct.findAll({
-      where: { cartId: cart.id },
-      include: Product
-    });
-
-    const cartItems = cartProducts.map(prod => ({
-      name: prod.Product.name,
-      price: prod.Product.price,
-      quantity: prod.quantity
+    const cartItems = cart.Products.map(prod => ({
+      name: prod.name,
+      price: prod.price,
+      quantity: prod.CartProduct.quantity,
+      totalPrice: prod.price * prod.CartProduct.quantity
     }));
 
-    const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const total = cartItems.reduce((sum, item) => sum + item.totalPrice, 0);
 
     res.render('cart', { cart: { items: cartItems, total: total }});
   } catch (err) {
