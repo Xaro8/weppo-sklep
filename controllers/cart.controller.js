@@ -2,6 +2,36 @@ const Cart = require('../models/Cart');
 const CartProduct = require('../models/CartProduct');
 const Product = require('../models/Product');
 
+exports.getCart = async (req, res) => {
+  const userId = req.signedCookies.userId;
+  
+  try {
+    const cart = await Cart.findOne({ where: { userId }});
+
+    if (!cart) {
+      return res.render('cart', { cart: { items: [], total: 0 }});
+    }
+
+    const cartProducts = await CartProduct.findAll({
+      where: { cartId: cart.id },
+      include: Product
+    });
+
+    const cartItems = cartProducts.map(prod => ({
+      name: prod.Product.name,
+      price: prod.Product.price,
+      quantity: prod.quantity
+    }));
+
+    const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+    res.render('cart', { cart: { items: cartItems, total: total }});
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Server error');
+  } 
+};
+
 exports.addProductToCart = async (req, res) => {
   const productId = req.params.id;
   const quantity = 1;

@@ -8,7 +8,7 @@ const { isAuthenticated } = require('../middlewares/auth.middleware');
 router.post('/addToCart/:id', isAuthenticated, cartController.addProductToCart);
 router.get('/addToCart/:id', isAuthenticated, cartController.addProductToCart);
 router.post('/removeFromCart/:id', isAuthenticated, cartController.removeProductFromCart);
-
+/*
 router.get('/cart', isAuthenticated, (req, res) => {
     const cart = {
         items: [
@@ -19,5 +19,7 @@ router.get('/cart', isAuthenticated, (req, res) => {
     };
     res.render('cart', { cart });
 });
+*/
+router.get('/cart', isAuthenticated, cartController.getCart);
 
 module.exports = router;

@@ -7,6 +7,8 @@ const config = require('./config/config');
 const sequelize = require('./config/db');
 
 const app = express();
+require('./models/associations');
+console.log('In app.js\n');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(config.COOKIE_SECRET));
@@ -43,14 +45,17 @@ app.use((req, res, next) => {
 });
 
 async function setupDB() {
+	console.log('In setupDB\n');
 	try {
 		await sequelize.authenticate();
-		await sequelize.sync({ force: false });
+		await sequelize.sync({ alter: true });
 	} catch (err) {
 		console.log('Unable to connect:', err);
 	}
 }
-
+console.log(require('./models/Product').associations);
+console.log(require('./models/Cart').associations)
+console.log(require('./models/CartProduct').associations)
 
 const bcrypt = require('bcrypt');
 const User = require('./models/User');
