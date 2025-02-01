@@ -23,7 +23,8 @@ exports.getCart = async (req, res) => {
       name: prod.name,
       price: prod.price,
       quantity: prod.CartProduct.quantity,
-      totalPrice: prod.price * prod.CartProduct.quantity
+      totalPrice: prod.price * prod.CartProduct.quantity,
+      imagePath: prod.imagePath
     }));
 
     const total = cartItems.reduce((sum, item) => sum + item.totalPrice, 0);
@@ -34,6 +35,44 @@ exports.getCart = async (req, res) => {
     res.status(500).send('Server error');
   } 
 };
+
+exports.updateCart = async (req, res) => {
+  const userId = req.signedCookies.userId;
+  const productId = req.params.id;
+  const action = req.body.action;
+
+  try {
+    let cart = await Cart.findOne({ where: { userId }});
+
+    if (!cart) {
+      return res.status(400).send('Cart not found');
+    }
+
+    const item = await CartProduct.findOne({
+      where: { cartId: cart.id, productId: productId }
+    });
+
+    if (!item) {
+      return res.status(400).send('Item not found');
+    } else {
+      console.log('\n\nReceived item\n\n');
+      if (action === 'increase') {
+        console.log('\n\nIncreasing\n\n');
+        item.quantity += 1;
+        await item.save();
+      }
+      else if (action === 'decrease' && item.quantity > 1) {
+        console.log('\n\nDecreasing\n\n');
+        item.quantity -= 1;
+        await item.save();
+      }
+    }
+
+    res.redirect('/cart');
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
+}
 
 exports.addProductToCart = async (req, res) => {
   const productId = req.params.id;

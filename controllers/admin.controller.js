@@ -12,7 +12,7 @@ exports.addProduct = async (req, res) => {
   }
 
   try {
-    let imagePath = '';
+    let imagePath = '/images/blank.jpg';
     if (image) {
       const uploadPath = path.join(__dirname, '..', 'public', 'images', image.name);
       image.mv(uploadPath, (err) => {
