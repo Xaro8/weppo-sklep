@@ -26,14 +26,32 @@ async function removeUser(id) {
 exports.getUser = async (req, res) => {
   const userId = req.signedCookies.userId;
 
-  const username = await getUsername(id);
+  const username = await getUsername(userId);
+  
+  try {
+    const orders = await Order.findAll({
+      where: { userId },
+      include: {
+        model: Product,
+        through: { attributes: ['quantity'] }
+      }
+    });
 
-  const orders = [
-    { id: '12345', date: '2025-01-28', total: 100, items: [{ name: 'Item A', quantity: 1 }, { name: 'Item B', quantity: 2 }] },
-    { id: '67890', date: '2025-01-15', total: 50, items: [{ name: 'Item C', quantity: 1 }] },
-  ];
+    const formatOrders = orders.map(ord => ({
+      id: ord.id,
+      date: ord.date,
+      total: ord.price,
+      items: ord.Products.map(prod => ({
+        name: prod.name,
+        quantity: prod.OrderProduct.quantity
+      }))
+    }))
 
-  res.render('user', { id, username, orders });
+    res.render('user', { userId, username, orders: formatOrders });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Server error');
+  }
 };
 
 exports.deleteUser = async (req, res) => {
