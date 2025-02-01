@@ -3,6 +3,13 @@ const Product = require('./Product');
 const CartProduct = require('./CartProduct');
 const Order = require('./Order');
 const OrderProduct = require('./OrderProduct');
+const User = require('./User');
+
+
+User.hasOne(Cart, { foreignKey: 'userId' });
+Cart.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(Order, { foreignKey: 'userId' });
+Order.belongsTo(User, { foreignKey: 'userId' });
 
 Cart.belongsToMany(Product, {
     through: CartProduct,

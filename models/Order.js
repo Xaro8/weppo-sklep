@@ -10,6 +10,20 @@ const Order = sequelize.define('Order', {
     userId: {
         type: DataTypes.INTEGER,
         allowNull: false
+    },
+    date: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+        defaultValue: DataTypes.NOW
+    },
+    price: {
+        type: DataTypes.DECIMAL(20, 2),
+        allowNull: false
+    },
+    paid: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
     }
 });
 

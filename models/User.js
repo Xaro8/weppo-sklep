@@ -1,8 +1,6 @@
 const { DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
-
 const sequelize = require('../config/db');
-const Cart = require('./Cart');
 
 const User = sequelize.define('User', {
 	id: {
@@ -35,8 +33,5 @@ const User = sequelize.define('User', {
 User.prototype.comparePassword = async function (password) {
 	return bcrypt.compare(password, this.passwordHash);
 };
-
-User.hasOne(Cart, { foreignKey: 'userId' });
-Cart.belongsTo(User, { foreignKey: 'userId' });
 
 module.exports = User;

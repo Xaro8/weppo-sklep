@@ -1,28 +1,10 @@
 const express = require('express');
-const User = require('../models/User');
-
 const router = express.Router();
+
+const userController = require('../controllers/user.controller');
 const { isAuthenticated } = require('../middlewares/auth.middleware');
 
-async function getUsername(id) {
-    try {
-        const user = await User.findOne({ where: { id } });
-        return user ? user.username : null;
-    } catch (err) {
-        console.error('Error fetching username:', err);
-        return null;
-    }
-}
-
-async function removeUser(id) {
-	try {
-        await User.destroy({where: {id}})
-	} catch (err) {
-		console.log('Unable to delete user: ', err);
-	}
-
-};
-
+/*
 router.get('/user', isAuthenticated, async (req, res) => {
     const id = req.signedCookies.userId;
 
@@ -43,5 +25,8 @@ router.get('/user/delete', isAuthenticated, async (req, res) => {
     res.clearCookie('userId');
 	res.redirect('/');
 });
+*/
+router.get('/user/delete', isAuthenticated, userController.deleteUser);
+router.get('/user', isAuthenticated, userController.getUser);
 
 module.exports = router;
