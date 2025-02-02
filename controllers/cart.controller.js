@@ -55,14 +55,11 @@ exports.updateCart = async (req, res) => {
     if (!item) {
       return res.status(400).send('Item not found');
     } else {
-      console.log('\n\nReceived item\n\n');
       if (action === 'increase') {
-        console.log('\n\nIncreasing\n\n');
         item.quantity += 1;
         await item.save();
       }
       else if (action === 'decrease' && item.quantity > 1) {
-        console.log('\n\nDecreasing\n\n');
         item.quantity -= 1;
         await item.save();
       }
@@ -83,18 +80,14 @@ exports.addProductToCart = async (req, res) => {
     let cart = await Cart.findOne({ where: { userId }});
 
     if (!cart) {
-      //return res.status(400).send('Cart not found');
       cart = await Cart.create({ userId });
-      console.log('\n\nCreated cart\n\n');
-    } else {
-      console.log('\n\nFound cart with id ', cart.id, '\n\n');
     }
 
     const product = await Product.findByPk(productId);
     if (!product) {
       return res.status(400).send('Product not found');
     }
-    console.log('\n\nProduct found\n\n');
+    
     const cartProduct = await CartProduct.findOne({
       where: { cartId: cart.id, productId: productId }
     });
@@ -104,7 +97,6 @@ exports.addProductToCart = async (req, res) => {
       await cartProduct.save();
     }
     else {
-      //await cart.addProduct(product, { through: { quantity: quantity }});
       await CartProduct.create({
         cartId: cart.id,
         productId: product.id,
