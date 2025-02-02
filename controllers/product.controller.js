@@ -31,23 +31,26 @@ exports.getProduct = async (req, res) => {
 
 
 exports.search = async (req, res) => {
-  const query = req.query.query; // Get search query from the URL
-  if (!query) res.redirect ('/products');
+  const query = req.query.query; 
+
+  if (!query) return res.redirect('/products'); 
+
   try {
     const products = await Product.findAll({
       where: {
-        name: {
-          [Op.like]: `%${query}%`  // Enables partial matching
-        }
+        [Op.or]: [  
+          { name: { [Op.like]: `%${query}%` } },
+          { description: { [Op.like]: `%${query}%` } }
+        ]
       }
     });
 
-    if (products.length == 0 ) res.redirect ('/products');
-    
-    res.render('products', { products: products }); 
+    if (products.length === 0) return res.redirect('/products'); 
+
+    res.render('products', { products: products });
 
   } catch (err) {
     console.error(err);
-    res.redirect ('/products');
+    res.redirect('/products');
   }
 };
