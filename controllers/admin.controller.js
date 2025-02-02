@@ -1,4 +1,5 @@
 const path = require('path');
+const { v4: uuidv4 } = require('uuid'); 
 
 const Product = require('../models/Product');
 const Order = require('../models/Order');
@@ -7,10 +8,16 @@ const User = require('../models/User');
 exports.getOrders = async (req, res) => {
 	try {
 		const orders = await Order.findAll({
-			include: {
-				model: User,
-				attributes: ['username']
-			},
+			include: [
+				{
+					model: User,
+					attributes: ['username']
+				},
+				{
+					model: Product,
+					attributes: ['name', 'price', 'id']
+				}
+			],
 			order: [['date', 'DESC']]
 		});
 
@@ -54,13 +61,14 @@ exports.addProduct = async (req, res) => {
 	try {
 		let imagePath = '/images/blank.jpg';
 		if (image) {
-			const uploadPath = path.join(__dirname, '..', 'public', 'images', image.name);
-			image.mv(uploadPath, (err) => {
-				if (err) {
-					return res.render('admin', { message: 'Error uploading image' });
-				}
-			});
-			imagePath = '/images/' + image.name;
+			const uniqueId = uuidv4();
+			const fileExt = path.extname(image.name);
+			const fileName = `${uniqueId}${fileExt}`
+			const uploadPath = path.join(__dirname, '..', 'public', 'images', fileName);
+
+			await image.mv(uploadPath);
+
+			imagePath = `/images/${fileName}`;
 		}
 		
 		await Product.create({
