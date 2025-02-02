@@ -1,4 +1,5 @@
 const Product = require('../models/Product');
+const { Op } = require('sequelize');
 
 exports.getProducts = async (req, res) => {
   try {
@@ -25,5 +26,28 @@ exports.getProduct = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).send('Server error');
+  }
+};
+
+
+exports.search = async (req, res) => {
+  const query = req.query.query; // Get search query from the URL
+  if (!query) res.redirect ('/products');
+  try {
+    const products = await Product.findAll({
+      where: {
+        name: {
+          [Op.like]: `%${query}%`  // Enables partial matching
+        }
+      }
+    });
+
+    if (products.length == 0 ) res.redirect ('/products');
+    
+    res.render('products', { products: products }); 
+
+  } catch (err) {
+    console.error(err);
+    res.redirect ('/products');
   }
 };
