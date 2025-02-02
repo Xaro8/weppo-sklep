@@ -34,7 +34,8 @@ exports.getUser = async (req, res) => {
       include: {
         model: Product,
         through: { attributes: ['quantity'] }
-      }
+      },
+      order: [['date', 'DESC']]
     });
 
     const formatOrders = orders.map(ord => ({
@@ -55,10 +56,23 @@ exports.getUser = async (req, res) => {
 };
 
 exports.deleteUser = async (req, res) => {
-  const id = req.signedCookies.userId;
-  removeUser(id);
-  res.clearCookie('userId');
-  res.redirect('/');
+  const userId = (req.params.id ? req.params.id : req.signedCookies.userId);
+  const returnUrl = req.query.returnUrl || '/';
+
+  console.log("Deleting:", userId);
+  console.log("Return url:", returnUrl, req.query.returnUrl);
+  
+  try {
+    await removeUser(userId);
+
+    if (userId == req.signedCookies.userId) {
+      res.clearCookie('userId');
+    }
+    res.redirect(returnUrl);
+  } catch (err) {
+    console.error('Error deleting user:', err);
+    res.status(500).send('Server error');
+  }
 };
 
 exports.makeOrder = async (req, res) => {
