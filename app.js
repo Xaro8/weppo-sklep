@@ -46,7 +46,7 @@ async function setupDB() {
 	console.log('In setupDB\n');
 	try {
 		await sequelize.authenticate();
-		await sequelize.sync({ force: false });
+		await sequelize.sync({alter : true});
 	} catch (err) {
 		console.log('Unable to connect:', err);
 	}

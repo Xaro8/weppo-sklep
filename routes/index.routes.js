@@ -17,10 +17,11 @@ async function getUsername(id) {
 	}
 }
 
-router.get('/', async (req, res) => {
-	const id = req.signedCookies.userId;
-	const username = await getUsername(id);
-	res.render('index', { userId: id, userName: username});
+router.get('/', async (req, res) => {  //just like that?
+  res.redirect("/products"); 
+  // const id = req.signedCookies.userId;
+  // const username = await getUsername(id);
+  // res.render('index', { userId: id, userName: username});
 });
 
 module.exports = router;
