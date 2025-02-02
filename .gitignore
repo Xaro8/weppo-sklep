@@ -1,5 +1,5 @@
 /node_modules
-/public/*
+/public/images/*
 
-!/public/13821-4J8X5-Ducky-One-2-Mini-Pro-Classic.webp
-!/public/18305-9HNJ1-Keychron-Q6-Max.webp
+!/public/images/13821-4J8X5-Ducky-One-2-Mini-Pro-Classic.webp
+!/public/images/18305-9HNJ1-Keychron-Q6-Max.webp
