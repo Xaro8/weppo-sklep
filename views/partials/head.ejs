@@ -9,20 +9,41 @@
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" >
 	<style>
 		body {
+			display: flex;
+			flex-direction: column;
 			min-height: 100vh;
 			margin: 0;
-			display: grid;
-			grid-template-rows: auto 1fr auto;
+		}
+
+		.container {
+			margin-top: 20px;
+			flex: 1;
 		}
 
 		.custom-red {
- 			background-color: rgb(243, 93, 77);
+			background-color: rgb(243, 93, 77);
 		}
 
 		.custom-red:hover {
-  			background-color: red; /* Optional: Set a darker red for hover effect */
+			background-color: red;
 		}
 
+		.container-footer {
+			position: relative;
+			flex-shrink: 0;
+			margin-top: auto;
+			text-align: right;
+		}
+
+		.container-footer a {
+			margin-top: 20px;
+			margin-right: 7%;
+			margin-left: auto;
+		}
+
+		footer {
+			margin-top: auto;
+		}
 	</style>
 </head>
 

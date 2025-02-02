@@ -44,6 +44,7 @@ exports.getUser = async (req, res) => {
       total: ord.price,
       items: ord.Products.map(prod => ({
         name: prod.name,
+        id: prod.id,
         quantity: prod.OrderProduct.quantity
       }))
     }))
