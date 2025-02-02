@@ -7,7 +7,7 @@
 	<div class="card mx-auto" style="max-width: 800px;"> 
 		<div class="card-body">
 			<h2 class="card-title text-center">Edit Product</h2>
-			<form action="/admin/updateProduct/<%= product.id %>" method="POST">
+			<form action="/admin/update-product/<%= product.id %>" method="POST">
 				<div class="mb-3">
 					<label for="name" class="form-label">Product Name</label>
 					<input type="text" class="form-control" id="name" name="name" value="<%= product.name %>" required>

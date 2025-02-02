@@ -1,0 +1,35 @@
+<% title = 'WEPPO Shop - Orders' %>
+<%- include('../partials/head'); %>
+<%- include('../partials/nav'); %>
+
+<main class="container my-4">
+	<h2 class="mb-4">Orders List</h2>
+	<% if (orders && orders.length > 0) { %>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>User</th>
+					<th>Date</th>
+					<th>Total Price</th>
+					<th>Paid</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% orders.forEach(order => { %>
+					<tr>
+						<td><%= order.id %></td>
+						<td><%= order.User.username %></td>
+						<td><%= order.formattedDate %></td>
+						<td>$<%= order.price %></td>
+						<td><%= order.paid ? 'Yes' : 'No' %></td>
+					</tr>
+				<% }) %>
+			</tbody>
+		</table>
+	<% } else { %>
+		<p>No orders found.</p>
+	<% } %>
+</main>
+
+<%- include('../partials/end'); %>

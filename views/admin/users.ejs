@@ -1,0 +1,45 @@
+<% title = 'WEPPO Shop - Users' %>
+<%- include('../partials/head'); %>
+<%- include('../partials/nav'); %>
+
+<main class="container my-4">
+	<h2 class="mb-4">Users</h2>
+	<% if (users && users.length > 0) { %>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>User</th>
+					<th>Email</th>
+					<th>Is admin?</th>
+          <th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<% users.forEach(user => { %>
+					<tr>
+						<td><%= user.id %></td>
+						<td><%= user.username %></td>
+						<td><%= user.email %></td>
+						<td><%= user.isAdmin ? 'Yes' : 'No' %></td>
+            <% if (!user.isAdmin) { %>
+              <td>
+                <a href="/user/delete/<%= user.id %>?returnUrl=<%= encodeURIComponent('/admin/users') %>" 
+                  class="btn custom-red btn-outline-dark btn-sm" 
+                  onclick="return confirm('Are you sure you want to remove your account?');">
+                  Delete account
+                </a>
+              </td>
+            <% } else { %>
+              <td></td>
+            <% } %>
+					</tr>
+				<% }) %>
+			</tbody>
+		</table>
+	<% } else { %>
+		<p>No users found.</p>
+	<% } %>
+</main>
+
+<%- include('../partials/end'); %>

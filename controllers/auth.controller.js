@@ -20,9 +20,10 @@ exports.registerUser = async (req, res) => {
 	if (!password) {
 		return res.render('register', { message: "Please provide password." });
 	} 
-	if (! validateEmail(email)) {
+	if (!validateEmail(email)) {
 		return res.render('register', { message: "That is not valid email." });
-	}	
+	}
+	
 	try {
 		const existingUser = await User.findOne({ 
 			where: { 

@@ -7,8 +7,8 @@ const config = require('./config/config');
 const sequelize = require('./config/db');
 
 const app = express();
+
 require('./models/associations');
-console.log('In app.js\n');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(config.COOKIE_SECRET));
@@ -23,12 +23,11 @@ app.use(async (req, res, next) => {
 	const user = await User.findByPk(userId);
 
 	res.locals.logged =  user ? true : false;
-	if (user){
+	if (user) {
 		res.locals.isAdmin = user.isAdmin ? true : false;
 	}
 	next();
-
-  });
+});
 
 app.use('/', require('./routes/index.routes'));
 app.use('/', require('./routes/admin.routes'));
@@ -36,7 +35,6 @@ app.use('/', require('./routes/auth.routes'));
 app.use('/', require('./routes/cart.routes'));
 app.use('/', require('./routes/product.routes'));
 app.use('/', require('./routes/user.routes'));
-
 
 app.use((req, res, next) => {
 	res.render('404.ejs', {
@@ -80,11 +78,9 @@ async function addAdmin() {
 	} catch (err) {
 		console.log('Unable to create admin: ', err);
 	}
-
 };
 
 async function removeUser(username) {
-
 	try {
 		if (await User.findOne({ where: { username: username }})) {
 			console.log('User found');
@@ -99,7 +95,6 @@ async function removeUser(username) {
 	} catch (err) {
 		console.log('Unable to delete user: ', err);
 	}
-
 };
 
 setupDB();
