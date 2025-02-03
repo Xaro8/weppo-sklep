@@ -19,7 +19,8 @@ exports.getProduct = async (req, res) => {
     const product = await Product.findByPk(productId);
 
     if (!product) {
-      return res.status(404).send('Product not found');
+      // res.status(404).send('Product not found');
+      res.render('404')
     }
 
     res.render('product', { product: product });
@@ -39,8 +40,8 @@ exports.search = async (req, res) => {
     const products = await Product.findAll({
       where: {
         [Op.or]: [  
-          { name: { [Op.like]: `%${query}%` } },
-          { description: { [Op.like]: `%${query}%` } }
+          { name: { [Op.iLike]: `${query}%` } },
+          { description: { [Op.iLike]: `%${query}%` } }
         ]
       }
     });
