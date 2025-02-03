@@ -85,7 +85,8 @@ exports.addProductToCart = async (req, res) => {
 
     const product = await Product.findByPk(productId);
     if (!product) {
-      return res.status(400).send('Product not found');
+      return res.redirect(`/products/?error=Product not found`);
+      // return res.status(400).send('Product not found');
     }
     
     const cartProduct = await CartProduct.findOne({
@@ -104,10 +105,11 @@ exports.addProductToCart = async (req, res) => {
       });
     }
 
-    res.redirect(`/product/${ productId }`);
+    res.redirect(`/product/${productId}?success=${encodeURIComponent(product.name + " added to cart!")}`);
   } catch (err) {
     console.log(err);
-    res.status(500).send('Server error');
+    res.redirect(`/product/${productId}?error=Something went wrong`);
+    // res.status(500).send('Server error');
   }
 };
 

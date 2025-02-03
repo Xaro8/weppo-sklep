@@ -2,13 +2,24 @@
 <%- include('partials/head'); %> 
 <%- include('partials/nav'); %> 
 
-<header class="bg-white text-dark p-3">
+<header class="bg-outline text-secondary p-3">
   <div class="container">
     <h1 class="h3">Welcome, <%= username %>!</h1>
+    <form action="/logout" method="POST" class="d-inline">
+      <button type="submit" class="btn btn-warning btn-sm">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
+    </form>     
+    <a href="/user/delete" 
+        class="btn btn-danger btn-sm" 
+        onclick="return confirm('Are you sure you want to remove your account?');">
+        <i class="fas fa-user-slash"></i> 
+        Delete account
+    </a>
   </div>
 </header>
 
-<section class="container mt-4">
+<section class="container mt-2">
   <h2 class="mb-3">Your Orders</h2>
   <% if (orders && orders.length > 0) { %>
     <div class="accordion" id="ordersAccordion">
@@ -55,14 +66,14 @@
   <% } %>
 </section>
 
-<div class="container-footer">
+<!-- <div class="container-footer">
   <nav>
     <a href="/user/delete" 
-       class="btn custom-red btn-outline-dark btn-sm" 
+       class="btn btn-danger btn-sm" 
        onclick="return confirm('Are you sure you want to remove your account?');">
       Delete account
     </a>
   </nav>
-</div>
+</div> -->
 
 <%- include('partials/end'); %>
